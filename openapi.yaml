@@ -1,0 +1,99 @@
+openapi: 3.0.1
+info:
+  title: all the way
+  description: all the way
+  contact:
+    email: nikhilkuria@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: localhost:8080
+tags:
+- name: run
+  description: Add and view runs
+- name: stats
+  description: Add and view overall stats
+- name: trophies
+  description: Add and view trophies
+paths:
+  /run/{runnerId}:
+    post:
+      tags:
+      - run
+      summary: Add your run
+      parameters:
+      - name: runnerId
+        in: path
+        description: ID of the runner
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Details about the run
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Run'
+        required: true
+      responses:
+        405:
+          description: Invalid input
+          content: {}
+      x-codegen-request-body-name: runData
+  /runs/{runnerId}:
+    get:
+      tags:
+      - run
+      summary: Get runs for a runner
+      parameters:
+      - name: runnerId
+        in: path
+        description: ID of the runner
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        405:
+          description: Invalid input
+          content: {}
+  /run/{runId}:
+    get:
+      tags:
+      - run
+      summary: Fetch your run
+      parameters:
+      - name: runId
+        in: path
+        description: ID of the run
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        405:
+          description: Invalid input
+          content: {}
+components:
+  schemas:
+    Run:
+      type: object
+      properties:
+        distance:
+          type: number
+          format: float
+        duration:
+          type: integer
+          format: int64
+        place:
+          type: string
+    Runs:
+      type: object
+      properties:
+        runs:
+          type: array
+          items:
+              $ref: '#/components/schemas/Run'
